@@ -5,4 +5,19 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- Neighbour DetailActivity -->
+    <dimen name="neighbour_detail_picture_height">250dp</dimen>
+    <dimen name="neighbour_detail_name_margin_start">10dp</dimen>
+    <dimen name="neighbour_detail_name_margin_bottom">25dp</dimen>
+    <dimen name="neighbour_detail_name_margin_size">30sp</dimen>
+    <dimen name="neighbour_detail_cardview_margin_horizontal">10dp</dimen>
+    <dimen name="neighbour_detail_cardview_margin_vertical">10dp</dimen>
+    <dimen name="neighbour_detail_cardview_title_size">22sp</dimen>
+    <dimen name="neighbour_detail_cardview_content_margin">10dp</dimen>
+    <dimen name="neighbour_detail_cardview_content_margin_top">16dp</dimen>
+    <dimen name="neighbour_detail_info_icon_size">15dp</dimen>
+    <dimen name="neighbour_detail_info_text_margin_start">10dp</dimen>
+    <dimen name="neighbour_detail_text_size">15sp</dimen>
+
 </resources>
