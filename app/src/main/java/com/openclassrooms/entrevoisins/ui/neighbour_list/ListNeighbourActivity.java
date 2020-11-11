@@ -1,5 +1,6 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,14 +17,20 @@ import butterknife.OnClick;
 public class ListNeighbourActivity extends AppCompatActivity {
 
     // UI Components
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.container)
     ViewPager mViewPager;
 
     ListNeighbourPagerAdapter mPagerAdapter;
+
+    NeighbourFragment mNeighbourFragment;
+    FavoritesFragment mFavoritesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +39,22 @@ public class ListNeighbourActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
+
+        mNeighbourFragment = NeighbourFragment.newInstance();
+        mFavoritesFragment = FavoritesFragment.newInstance();
+
         mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter.addFragment(mNeighbourFragment);
+        mPagerAdapter.addFragment(mFavoritesFragment);
+
         mViewPager.setAdapter(mPagerAdapter);
+
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.add_neighbour)
     void addNeighbour() {
         AddNeighbourActivity.navigate(this);

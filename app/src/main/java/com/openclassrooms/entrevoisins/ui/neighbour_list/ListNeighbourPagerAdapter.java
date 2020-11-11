@@ -4,8 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
+    private final List<Fragment> mFragmentList = new ArrayList<>();
 
     public ListNeighbourPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -13,20 +17,24 @@ public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * getItem is called to instantiate the fragment for the given page.
-     * @param position
-     * @return
+     * @param position the position of desired fragment
+     * @return the fragment at position in the list
      */
     @Override
     public Fragment getItem(int position) {
-        return NeighbourFragment.newInstance();
+        return mFragmentList.get(position);
+    }
+
+    public void addFragment(Fragment fragment) {
+        mFragmentList.add(fragment);
     }
 
     /**
      * get the number of pages
-     * @return
+     * @return fragments count
      */
     @Override
     public int getCount() {
-        return 1;
+        return mFragmentList.size();
     }
 }
