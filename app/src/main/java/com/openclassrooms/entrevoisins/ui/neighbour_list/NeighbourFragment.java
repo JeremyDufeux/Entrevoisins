@@ -1,6 +1,7 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
+import com.openclassrooms.entrevoisins.events.OpenNeighbourDetailsEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
@@ -21,12 +23,15 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourDetailActivity.BUNDLE_EXTRA_NEIGHBOUR;
+
 
 public class NeighbourFragment extends Fragment {
 
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
+
 
 
     /**
@@ -83,11 +88,21 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Fired if the user clicks on a delete button
-     * @param event
+     * @param event Neighbour
      */
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
         mApiService.deleteNeighbour(event.neighbour);
         initList();
+    }
+    /**
+     * Open details if the user clicks on a neighbor
+     * @param event Neighbour
+     */
+    @Subscribe
+    public void onOpenNeighbourDetails(OpenNeighbourDetailsEvent event){
+        Intent intent = new Intent(getActivity(), NeighbourDetailActivity.class);
+        intent.putExtra(BUNDLE_EXTRA_NEIGHBOUR, event.neighbour);
+        startActivity(intent);
     }
 }
