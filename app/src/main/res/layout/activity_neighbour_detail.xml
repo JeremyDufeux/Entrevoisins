@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/neighbour_detail_add_to_favorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/neighbour_detail_cardview_margin_horizontal"
@@ -40,6 +40,7 @@
         android:contentDescription="@string/add_to_favorites"
         android:focusable="true"
         android:tint="@color/favorite_yellow"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/neighbour_detail_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/neighbour_detail_picture"
@@ -161,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/neighbour_detail_cardview_margin_horizontal"
-                android:layout_marginTop="@dimen/neighbour_detail_cardview_margin_vertical">
+                android:layout_marginVertical="@dimen/neighbour_detail_cardview_margin_vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"

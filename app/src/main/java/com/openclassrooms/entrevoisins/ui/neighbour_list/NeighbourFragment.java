@@ -101,8 +101,6 @@ public class NeighbourFragment extends Fragment {
      */
     @Subscribe
     public void onOpenNeighbourDetails(OpenNeighbourDetailsEvent event){
-        Intent intent = new Intent(getActivity(), NeighbourDetailActivity.class);
-        intent.putExtra(BUNDLE_EXTRA_NEIGHBOUR, event.neighbour);
-        startActivity(intent);
+        NeighbourDetailActivity.navigate(getActivity(), event.neighbour);
     }
 }
