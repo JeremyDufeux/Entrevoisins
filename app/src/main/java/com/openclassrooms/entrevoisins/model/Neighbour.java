@@ -31,6 +31,9 @@ public class Neighbour implements Parcelable {
     /** About me */
     private String aboutMe;
 
+    /** Is Favorite */
+    private boolean isFavorite = false;
+
     /**
      * Constructor
      * @param id
@@ -128,6 +131,15 @@ public class Neighbour implements Parcelable {
         this.aboutMe = aboutMe;
     }
 
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -155,6 +167,7 @@ public class Neighbour implements Parcelable {
         dest.writeString(phoneNumber);
         dest.writeString(webUrl);
         dest.writeString(aboutMe);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
     }
 
     protected Neighbour(Parcel in) {
@@ -165,6 +178,7 @@ public class Neighbour implements Parcelable {
         phoneNumber = in.readString();
         webUrl = in.readString();
         aboutMe = in.readString();
+        isFavorite = in.readByte() != 0;
     }
 
     public static final Creator<Neighbour> CREATOR = new Creator<Neighbour>() {

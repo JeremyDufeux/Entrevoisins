@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.AddNeighbourToFavoritesEvent;
 import com.openclassrooms.entrevoisins.events.OpenNeighbourDetailsEvent;
+import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,7 +79,22 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         mPhoneInfoTv.setText(mNeighbour.getPhoneNumber());
         mWebInfoTv.setText(mNeighbour.getWebUrl());
         mAboutTv.setText(mNeighbour.getAboutMe());
-        mFavoriteFab.setOnClickListener(v -> EventBus.getDefault().post(new AddNeighbourToFavoritesEvent(mNeighbour)));
+
+        if(mNeighbour.isFavorite()) {
+            mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
+        }
+
+        mFavoriteFab.setOnClickListener(v -> {
+            if(!mNeighbour.isFavorite()) {
+                mNeighbour.setFavorite(true);
+                mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
+                EventBus.getDefault().post(new AddNeighbourToFavoritesEvent(mNeighbour));
+            } else{
+                mNeighbour.setFavorite(false);
+                mFavoriteFab.setImageResource(R.drawable.ic_star_border_white_24dp);
+                EventBus.getDefault().post(new RemoveNeighbourFromFavoritesEvent(mNeighbour));
+            }
+        });
     }
 
     @Override

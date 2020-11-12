@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.AddNeighbourToFavoritesEvent;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
+import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,9 +70,18 @@ public class FavoritesFragment extends Fragment {
      */
     @Subscribe
     public void onAddNeighbourToFavoritesEvent(AddNeighbourToFavoritesEvent event) {
-        Log.d(TAG, "onAddNeighbourToFavoritesEvent: add");
         mNeighbours.add(event.neighbour);
         mAdapter.notifyItemInserted(mNeighbours.size());
+    }
+
+    /**
+     * Fired if the user clicks on a delete button
+     * @param event Neighbour
+     */
+    @Subscribe
+    public void onRemoveNeighbourFromFavoritesEvent(RemoveNeighbourFromFavoritesEvent event) {
+        mNeighbours.remove(event.neighbour);
+        mAdapter.notifyDataSetChanged();
     }
 
 }
