@@ -7,21 +7,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.events.AddNeighbourToFavoritesEvent;
-import com.openclassrooms.entrevoisins.events.OpenNeighbourDetailsEvent;
-import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-
-import org.greenrobot.eventbus.EventBus;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import java.util.Objects;
 
@@ -29,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NeighbourDetailActivity extends AppCompatActivity {
+    private NeighbourApiService mApiService;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.neighbour_detail_picture)
@@ -67,6 +62,8 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        mApiService = DI.getNeighbourApiService();
+
         Intent intent = getIntent();
         mNeighbour = (Neighbour) intent.getParcelableExtra(BUNDLE_EXTRA_NEIGHBOUR);
 
@@ -88,12 +85,11 @@ public class NeighbourDetailActivity extends AppCompatActivity {
             if(!mNeighbour.isFavorite()) {
                 mNeighbour.setFavorite(true);
                 mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
-                EventBus.getDefault().post(new AddNeighbourToFavoritesEvent(mNeighbour));
             } else{
                 mNeighbour.setFavorite(false);
                 mFavoriteFab.setImageResource(R.drawable.ic_star_border_white_24dp);
-                EventBus.getDefault().post(new RemoveNeighbourFromFavoritesEvent(mNeighbour));
             }
+            mApiService.updateNeighbour(mNeighbour);
         });
     }
 

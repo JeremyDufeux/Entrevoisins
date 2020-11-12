@@ -12,20 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.events.AddNeighbourToFavoritesEvent;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
 public class FavoritesFragment extends Fragment {
+    private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
     private MyFavoritesNeighbourRecyclerViewAdapter mAdapter;
@@ -38,7 +38,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+        mApiService = DI.getNeighbourApiService();
     }
 
     @Override
@@ -51,16 +51,33 @@ public class FavoritesFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
-        mNeighbours = new ArrayList<>();
-        mAdapter = new MyFavoritesNeighbourRecyclerViewAdapter(mNeighbours);
-        mRecyclerView.setAdapter(mAdapter);
-
         return view;
     }
 
+    /**
+     * Init the List of neighbours
+     */
+    private void initList() {
+        mNeighbours = mApiService.getFavoritesNeighbours();
+        mAdapter = new MyFavoritesNeighbourRecyclerViewAdapter(mNeighbours);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onResume() {
+        super.onResume();
+        initList();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
     }
 
@@ -69,19 +86,10 @@ public class FavoritesFragment extends Fragment {
      * @param event Neighbour
      */
     @Subscribe
-    public void onAddNeighbourToFavoritesEvent(AddNeighbourToFavoritesEvent event) {
-        mNeighbours.add(event.neighbour);
-        mAdapter.notifyItemInserted(mNeighbours.size());
-    }
-
-    /**
-     * Fired if the user clicks on a delete button
-     * @param event Neighbour
-     */
-    @Subscribe
     public void onRemoveNeighbourFromFavoritesEvent(RemoveNeighbourFromFavoritesEvent event) {
-        mNeighbours.remove(event.neighbour);
-        mAdapter.notifyDataSetChanged();
+        Log.d(TAG, "onRemoveNeighbourFromFavoritesEvent: " + event.neighbour.isFavorite());
+        mApiService.updateNeighbour(event.neighbour);
+        initList();
     }
 
 }

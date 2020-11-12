@@ -48,7 +48,10 @@ public class MyFavoritesNeighbourRecyclerViewAdapter extends RecyclerView.Adapte
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
-        holder.mRemoveButton.setOnClickListener(v -> EventBus.getDefault().post(new RemoveNeighbourFromFavoritesEvent(neighbour)));
+        holder.mRemoveButton.setOnClickListener(v -> {
+            neighbour.setFavorite(false);
+            EventBus.getDefault().post(new RemoveNeighbourFromFavoritesEvent(neighbour));
+        });
 
         holder.mConstraintLayout.setOnClickListener(v -> EventBus.getDefault().post(new OpenNeighbourDetailsEvent(neighbour)));
     }
