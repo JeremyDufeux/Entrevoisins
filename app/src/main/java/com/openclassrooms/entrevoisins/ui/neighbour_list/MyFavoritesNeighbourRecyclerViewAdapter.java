@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.OpenNeighbourDetailsEvent;
+import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,18 +24,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
+public class MyFavoritesNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyFavoritesNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
 
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
+    public MyFavoritesNeighbourRecyclerViewAdapter(List<Neighbour> items) {
         mNeighbours = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.neighbour_item, parent, false);
+                .inflate(R.layout.favorites_neighbour_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -47,7 +48,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
-        holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));
+        holder.mRemoveButton.setOnClickListener(v -> EventBus.getDefault().post(new RemoveNeighbourFromFavoritesEvent(neighbour)));
 
         holder.mConstraintLayout.setOnClickListener(v -> EventBus.getDefault().post(new OpenNeighbourDetailsEvent(neighbour)));
     }
@@ -58,14 +59,14 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_list_container)
+        @BindView(R.id.favorite_item_list_container)
         public ConstraintLayout mConstraintLayout;
-        @BindView(R.id.item_list_avatar)
+        @BindView(R.id.favorite_item_list_avatar)
         public ImageView mNeighbourAvatar;
-        @BindView(R.id.item_list_name)
+        @BindView(R.id.favorite_item_list_name)
         public TextView mNeighbourName;
-        @BindView(R.id.item_list_delete_button)
-        public ImageButton mDeleteButton;
+        @BindView(R.id.favorite_item_list_remove_favorite_button)
+        public ImageButton mRemoveButton;
 
         public ViewHolder(View view) {
             super(view);

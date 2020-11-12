@@ -28,7 +28,7 @@ import static android.content.ContentValues.TAG;
 public class FavoritesFragment extends Fragment {
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
-    private MyNeighbourRecyclerViewAdapter mAdapter;
+    private MyFavoritesNeighbourRecyclerViewAdapter mAdapter;
 
     public static FavoritesFragment newInstance() {
         FavoritesFragment fragment = new FavoritesFragment();
@@ -52,7 +52,7 @@ public class FavoritesFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         mNeighbours = new ArrayList<>();
-        mAdapter = new MyNeighbourRecyclerViewAdapter(mNeighbours);
+        mAdapter = new MyFavoritesNeighbourRecyclerViewAdapter(mNeighbours);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
