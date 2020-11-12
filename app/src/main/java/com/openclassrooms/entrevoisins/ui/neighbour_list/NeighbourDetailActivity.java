@@ -2,19 +2,25 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.events.AddNeighbourToFavoritesEvent;
+import com.openclassrooms.entrevoisins.events.OpenNeighbourDetailsEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Objects;
 
@@ -44,6 +50,10 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.neighbour_detail_about)
     TextView mAboutTv;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.neighbour_detail_add_to_favorites)
+    FloatingActionButton mFavoriteFab;
+
 
     public static final String BUNDLE_EXTRA_NEIGHBOUR = "BUNDLE_EXTRA_NEIGHBOUR";
 
@@ -58,7 +68,6 @@ public class NeighbourDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mNeighbour = (Neighbour) intent.getParcelableExtra(BUNDLE_EXTRA_NEIGHBOUR);
-        Log.d("ContentValues", "onCreate: " + mNeighbour.getName());
 
         Glide.with(mPictureIv.getContext())
                 .load(mNeighbour.getAvatarUrl())
@@ -69,6 +78,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         mPhoneInfoTv.setText(mNeighbour.getPhoneNumber());
         mWebInfoTv.setText(mNeighbour.getWebUrl());
         mAboutTv.setText(mNeighbour.getAboutMe());
+        mFavoriteFab.setOnClickListener(v -> EventBus.getDefault().post(new AddNeighbourToFavoritesEvent(mNeighbour)));
     }
 
     @Override
