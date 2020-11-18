@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,14 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.pref.UserPref;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class FavoritesFragment extends Fragment {
     private NeighbourApiService mApiService;
@@ -58,7 +57,13 @@ public class FavoritesFragment extends Fragment {
      * Init the List of neighbours
      */
     private void initList() {
-        mNeighbours = mApiService.getFavoritesNeighbours();
+        List<Neighbour> neighbours = mApiService.getNeighbours();
+        mNeighbours = new ArrayList<>();
+        for(Neighbour neighbour : neighbours){
+            if(UserPref.favouritesContains(neighbour.getId())) {
+                mNeighbours.add(neighbour);
+            }
+        }
         mAdapter = new MyFavoritesNeighbourRecyclerViewAdapter(mNeighbours);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -87,8 +92,7 @@ public class FavoritesFragment extends Fragment {
      */
     @Subscribe
     public void onRemoveNeighbourFromFavoritesEvent(RemoveNeighbourFromFavoritesEvent event) {
-        Log.d(TAG, "onRemoveNeighbourFromFavoritesEvent: " + event.neighbour.isFavorite());
-        mApiService.updateNeighbour(event.neighbour);
+        UserPref.removeFavorite(event.neighbour.getId());
         initList();
     }
 

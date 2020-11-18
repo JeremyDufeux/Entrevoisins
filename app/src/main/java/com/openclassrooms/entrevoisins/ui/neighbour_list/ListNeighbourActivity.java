@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.pref.UserPref;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +40,8 @@ public class ListNeighbourActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
+
+        UserPref mUserPref = new UserPref(getApplicationContext());
 
         mNeighbourFragment = NeighbourFragment.newInstance();
         mFavoritesFragment = FavoritesFragment.newInstance();

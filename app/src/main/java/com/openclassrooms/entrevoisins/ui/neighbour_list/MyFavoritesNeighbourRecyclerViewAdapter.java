@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.OpenNeighbourDetailsEvent;
 import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
@@ -49,7 +48,6 @@ public class MyFavoritesNeighbourRecyclerViewAdapter extends RecyclerView.Adapte
                 .into(holder.mNeighbourAvatar);
 
         holder.mRemoveButton.setOnClickListener(v -> {
-            neighbour.setFavorite(false);
             EventBus.getDefault().post(new RemoveNeighbourFromFavoritesEvent(neighbour));
         });
 

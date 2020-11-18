@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.pref.UserPref;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import java.util.Objects;
@@ -24,6 +25,8 @@ import butterknife.ButterKnife;
 
 public class NeighbourDetailActivity extends AppCompatActivity {
     private NeighbourApiService mApiService;
+    public static final String BUNDLE_EXTRA_NEIGHBOUR = "BUNDLE_EXTRA_NEIGHBOUR";
+    private Neighbour mNeighbour;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.neighbour_detail_picture)
@@ -51,9 +54,6 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     FloatingActionButton mFavoriteFab;
 
 
-    public static final String BUNDLE_EXTRA_NEIGHBOUR = "BUNDLE_EXTRA_NEIGHBOUR";
-
-    private Neighbour mNeighbour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mNeighbour = (Neighbour) intent.getParcelableExtra(BUNDLE_EXTRA_NEIGHBOUR);
 
+
         Glide.with(mPictureIv.getContext())
                 .load(mNeighbour.getAvatarUrl())
                 .into(mPictureIv);
@@ -77,19 +78,19 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         mWebInfoTv.setText(mNeighbour.getWebUrl());
         mAboutTv.setText(mNeighbour.getAboutMe());
 
-        if(mNeighbour.isFavorite()) {
+        Boolean isFavourite = UserPref.favouritesContains(mNeighbour.getId());
+        if(isFavourite) {
             mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
         }
 
         mFavoriteFab.setOnClickListener(v -> {
-            if(!mNeighbour.isFavorite()) {
-                mNeighbour.setFavorite(true);
+            if(!isFavourite) {
+                UserPref.addFavorite(mNeighbour.getId());
                 mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
-            } else{
-                mNeighbour.setFavorite(false);
+            } else {
+                UserPref.removeFavorite(mNeighbour.getId());
                 mFavoriteFab.setImageResource(R.drawable.ic_star_border_white_24dp);
             }
-            mApiService.updateNeighbour(mNeighbour);
         });
     }
 
