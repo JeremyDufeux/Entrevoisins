@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.ContentValues.TAG;
 
 public class NeighbourDetailActivity extends AppCompatActivity {
     private NeighbourApiService mApiService;
@@ -81,6 +84,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         Boolean isFavourite = UserPref.favouritesContains(mNeighbour.getId());
         if(isFavourite) {
             mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
+            Log.d(TAG, "onCreate: " );
         }
 
         mFavoriteFab.setOnClickListener(v -> {

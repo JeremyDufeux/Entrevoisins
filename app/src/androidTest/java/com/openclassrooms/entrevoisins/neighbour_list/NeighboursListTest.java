@@ -18,6 +18,7 @@ import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -87,19 +89,58 @@ public class NeighboursListTest {
     }
 
     /**
-     * When we add a neighbour to favorites it is delayed in favorites tab
+     * When click on an item, the NeighbourDetailActivity should open
      */
     @Test
-    public void myFavoriteNeighbourList_addNeighbour_shouldBeOne(){
-        // Check if favorite list is empty
-        onView(ViewMatchers.withId(R.id.favorites_rv)).check(withItemCount(0));
-        // perform a click on a neighbour and add to favorites
+    public void NeighboursFragment_clickItemAction_shouldOpenDetail() {
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.list_neighbours),
                         withParent(withId(R.id.container))));
-        
         recyclerView.perform(actionOnItemAtPosition(0, click()));
 
+        ViewInteraction textView = onView(
+                allOf(withText("A propos de moi"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+                        isDisplayed()));
+        textView.check(matches(withText("A propos de moi")));
+    }
+
+    /**
+     * When click on an item, the NeighbourDetailActivity should display the right information
+     */
+    @Test
+    public void NeighboursFragment_clickItemAction_shouldOpenDetailAndDisplayRightUser() {
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.item_list_name), withText("Sylvain"),
+                        withParent(allOf(withId(R.id.item_list_container),
+                                withParent(withId(R.id.list_neighbours)))),
+                        isDisplayed()));
+        textView.check(matches(withText("Sylvain")));
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.list_neighbours),
+                        withParent(withId(R.id.container))));
+        recyclerView.perform(actionOnItemAtPosition(5, click()));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.neighbour_detail_name), withText("Sylvain"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Sylvain")));
+    }
+
+    /**
+     * When we add a user to favorites, the item should be listed in the favorite list
+     */
+    @Test
+    public void NeighboursFragment_clickItemActionAndAddToFavourites_shouldAddItemInTheFavouriteList() {
+        // Given : We remove the element at position 2
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.list_neighbours),
+                        withParent(withId(R.id.container))));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.neighbour_detail_add_to_favorites), withContentDescription("Add to favorites"),
@@ -110,6 +151,7 @@ public class NeighboursListTest {
                                 2),
                         isDisplayed()));
         floatingActionButton.perform(click());
+
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Navigate up"),
@@ -142,10 +184,8 @@ public class NeighboursListTest {
                                 1),
                         isDisplayed()));
         viewPager.perform(swipeLeft());
-        // Check if favorite list contains 1 item
+
         onView(ViewMatchers.withId(R.id.favorites_rv)).check(withItemCount(1));
-
-
     }
 
     private static Matcher<View> childAtPosition(
