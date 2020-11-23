@@ -4,13 +4,13 @@ Ce dépôt contient l'application **Entrevoisin** pour le P3 du parcours **Parco
 
 # Installation
 
-Cliquer sur le bouton vert **Code** en haut à droite , puis **Downoad ZIP**.
+Cliquer sur le bouton vert **Code** en haut à droite, puis **Downoad ZIP**.
 
 ![Download.png](Screenshot/Download.png)
 
-Décomprésser l'archive sur l'ordinateur.
+Décompresser l'archive sur l'ordinateur.
 
-Depuis **Android Studio** , cliquer sur **File**, **Open...**, et aller chercher le dossier contenant les fichiers décompréssés et cliquer sur **OK**.
+Depuis **Android Studio**, cliquer sur **File**, **Open...**, et aller chercher le dossier contenant le s fichiers dés fichiers décompressés et cliquer sur **OK**.
 
 ![Open.png](Screenshot/Open.png)
 
