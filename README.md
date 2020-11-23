@@ -1,3 +1,6 @@
-# OpenClassrooms
+# Entrevoisin
 
-Ce dépôt contient une mini-application pour le P3 du parcours **Grande École du Numérique**.
+Ce dépôt contient l'application **Entrevoisin** pour le P3 du parcours **Parcours développeur d'application - Android** d'OpenClassrooms.
+
+
+# Instalation
