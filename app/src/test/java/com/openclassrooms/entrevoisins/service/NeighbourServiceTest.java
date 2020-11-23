@@ -3,6 +3,7 @@ package com.openclassrooms.entrevoisins.service;
 
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.pref.UserPref;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
@@ -12,8 +13,13 @@ import org.junit.runners.JUnit4;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import com.github.ivanshafran.sharedpreferencesmock.*;
+
 
 /**
  * Unit test on Neighbour service
@@ -43,9 +49,11 @@ public class NeighbourServiceTest {
     }
 
     @Test
-    public void setNeighbourToFavoriteAndTakeItInFavoritesList() {
-        /*Neighbour favoriteNeighbour = service.getNeighbours().get(0);
-        favoriteNeighbour.setFavorite(true);
-        assertEquals(favoriteNeighbour, service.getFavoritesNeighbours().get(0));*/
+    public void createNewNeighbourWithSuccess(){
+        List<Neighbour> neighbours = service.getNeighbours();
+        int neighboursCount = neighbours.size();
+        Neighbour neighbourToAdd = new Neighbour(1953, "Michelle Obama", "https://i.pravatar.cc/300?u=a042581f4e29026704d", "Washington", "+1 686 579 014",  "Hi I was the Barack wife");
+        service.createNeighbour(neighbourToAdd);
+        assertEquals(neighboursCount+1, service.getNeighbours().size());
     }
 }

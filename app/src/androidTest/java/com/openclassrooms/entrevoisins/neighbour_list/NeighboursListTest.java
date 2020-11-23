@@ -1,6 +1,7 @@
 
 package com.openclassrooms.entrevoisins.neighbour_list;
 
+import android.hardware.usb.UsbDevice;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.pref.UserPref;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 
@@ -50,9 +52,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class NeighboursListTest {
 
     // This is fixed
-    private static int ITEMS_COUNT = 12;
-
-    private ListNeighbourActivity mActivity;
+    private static final int ITEMS_COUNT = 12;
 
     @Rule
     public ActivityTestRule<ListNeighbourActivity> mActivityRule =
@@ -60,8 +60,8 @@ public class NeighboursListTest {
 
     @Before
     public void setUp() {
-        mActivity = mActivityRule.getActivity();
-        assertThat(mActivity, notNullValue());
+        ListNeighbourActivity activity = mActivityRule.getActivity();
+        assertThat(activity, notNullValue());
     }
 
     /**
@@ -110,12 +110,14 @@ public class NeighboursListTest {
      */
     @Test
     public void NeighboursFragment_clickItemAction_shouldOpenDetailAndDisplayRightUser() {
+        String neighbourName = "Sylvain";
+        
         ViewInteraction textView = onView(
-                allOf(withId(R.id.item_list_name), withText("Sylvain"),
+                allOf(withId(R.id.item_list_name), withText(neighbourName),
                         withParent(allOf(withId(R.id.item_list_container),
                                 withParent(withId(R.id.list_neighbours)))),
                         isDisplayed()));
-        textView.check(matches(withText("Sylvain")));
+        textView.check(matches(withText(neighbourName)));
 
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.list_neighbours),
@@ -123,24 +125,29 @@ public class NeighboursListTest {
         recyclerView.perform(actionOnItemAtPosition(5, click()));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.neighbour_detail_name), withText("Sylvain"),
+                allOf(withId(R.id.neighbour_detail_name), withText(neighbourName),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView2.check(matches(withText("Sylvain")));
+        textView2.check(matches(withText(neighbourName)));
+    }
+
+    @Before
+    public void clearFavorites(){
+        UserPref.clearFavorites();
     }
 
     /**
      * When we add a user to favorites, the item should be listed in the favorite list
      */
     @Test
-    public void NeighboursFragment_clickItemActionAndAddToFavourites_shouldAddItemInTheFavouriteList() {
-        // Given : We remove the element at position 2
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+    public void NeighboursFragment_clickItemActionAndAddToFavorites_shouldAddItemInTheFavoriteList() {
+
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
 
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.list_neighbours),
                         withParent(withId(R.id.container))));
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
+        recyclerView.perform(actionOnItemAtPosition(1, click()));
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.neighbour_detail_add_to_favorites), withContentDescription("Add to favorites"),
@@ -151,7 +158,6 @@ public class NeighboursListTest {
                                 2),
                         isDisplayed()));
         floatingActionButton.perform(click());
-
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Navigate up"),
