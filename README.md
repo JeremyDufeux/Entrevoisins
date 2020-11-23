@@ -19,3 +19,23 @@ Depuis **Android Studio**, cliquer sur **File**, **Open...**, et aller chercher 
 Cliquer sur **Run** et **Run 'App'** pour compiler et exécuter l'application.
 
 ![Run.png](Screenshot/Run.png)
+
+# Commandes
+
+Pour compiler l'application depuis le terminal:
+
+```
+gradlew assembleDebug
+```
+
+Pour lancer les tests unitaires:
+
+
+```
+gradlew test
+```
+Pour lancer les tests d'intégration:
+
+```
+gradlew connectedAndroidTest
+```
