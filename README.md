@@ -9,10 +9,10 @@ Cliquer sur le bouton vert **Code** en haut à droite , puis **Downoad ZIP**.
 
 Décomprésser l'archive sur l'ordinateur.
 
-Depuis **Android Studio** , cliquer sur **File**, **Open...**, et aller chercher le dossier contenant les fichiers décompréssés et cliquer sur **OK**
+Depuis **Android Studio** , cliquer sur **File**, **Open...**, et aller chercher le dossier contenant les fichiers décompréssés et cliquer sur **OK**.
 ![Open.png](Screenshot/Open.png)
 
 # Exécution
 
-Cliquer sur **Run** et **Run 'App'** pour compiler et exécuter l'application
+Cliquer sur **Run** et **Run 'App'** pour compiler et exécuter l'application.
 ![Run.png](Screenshot/Run.png)
