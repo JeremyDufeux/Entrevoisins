@@ -60,7 +60,7 @@ public class FavoritesFragment extends Fragment {
         List<Neighbour> neighbours = mApiService.getNeighbours();
         mFavoritesNeighbours = new ArrayList<>();
         for(Neighbour neighbour : neighbours){
-            if(UserPref.favoritesContains(neighbour.getId())) {
+            if(DI.getUserPref().favoritesContains(neighbour.getId())) {
                 mFavoritesNeighbours.add(neighbour);
             }
         }
@@ -92,7 +92,7 @@ public class FavoritesFragment extends Fragment {
      */
     @Subscribe
     public void onRemoveNeighbourFromFavoritesEvent(RemoveNeighbourFromFavoritesEvent event) {
-        UserPref.removeFavoriteId(event.neighbour.getId());
+        DI.getUserPref().removeFavoriteId(event.neighbour.getId());
         initList();
     }
 

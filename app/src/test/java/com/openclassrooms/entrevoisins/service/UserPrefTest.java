@@ -25,14 +25,13 @@ public class UserPrefTest {
 
     private NeighbourApiService service;
     private final SPMockBuilder spMockBuilder = new SPMockBuilder();
+    private UserPref mUserPref;
 
     @Before
     public void setup() {
         service = DI.getNewInstanceApiService();
-
-        UserPref mUserPref = new UserPref(spMockBuilder.createContext());
+        mUserPref = DI.getUserPref().init(spMockBuilder.createContext());
     }
-
 
     @Test
     public void setNeighbourToFavoriteAndCheckItInFavoritesList() {
@@ -40,13 +39,13 @@ public class UserPrefTest {
         Neighbour favoriteNeighbour = service.getNeighbours().get(1);
 
         //Check if it's not in the favorites list
-        assertFalse(UserPref.favoritesContains(favoriteNeighbour.getId()));
+        assertFalse(mUserPref.favoritesContains(favoriteNeighbour.getId()));
 
         // Add it to the list
-        UserPref.addFavoriteId(favoriteNeighbour.getId());
+        mUserPref.addFavoriteId(favoriteNeighbour.getId());
 
         // Check it's in the list
-        assertTrue(UserPref.favoritesContains(favoriteNeighbour.getId()));
+        assertTrue(mUserPref.favoritesContains(favoriteNeighbour.getId()));
     }
 
     @Test
@@ -55,18 +54,18 @@ public class UserPrefTest {
         Neighbour favoriteNeighbour = service.getNeighbours().get(2);
 
         //Check if it's not in the favorites list
-        assertFalse(UserPref.favoritesContains(favoriteNeighbour.getId()));
+        assertFalse(mUserPref.favoritesContains(favoriteNeighbour.getId()));
 
         // Add it to the list
-        UserPref.addFavoriteId(favoriteNeighbour.getId());
+        mUserPref.addFavoriteId(favoriteNeighbour.getId());
 
         // Check it's in the list
-        assertTrue(UserPref.favoritesContains(favoriteNeighbour.getId()));
+        assertTrue(mUserPref.favoritesContains(favoriteNeighbour.getId()));
 
         // Remove it from the list
-        UserPref.removeFavoriteId(favoriteNeighbour.getId());
+        mUserPref.removeFavoriteId(favoriteNeighbour.getId());
 
         //Check if it's not in the favorites list
-        assertFalse(UserPref.favoritesContains(favoriteNeighbour.getId()));
+        assertFalse(mUserPref.favoritesContains(favoriteNeighbour.getId()));
     }
 }

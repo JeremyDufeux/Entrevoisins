@@ -81,7 +81,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         mWebInfoTv.setText(mNeighbour.getWebUrl());
         mAboutTv.setText(mNeighbour.getAboutMe());
 
-        Boolean isFavourite = UserPref.favoritesContains(mNeighbour.getId());
+        Boolean isFavourite = DI.getUserPref().favoritesContains(mNeighbour.getId());
         if(isFavourite) {
             mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
             Log.d(TAG, "onCreate: " );
@@ -89,10 +89,10 @@ public class NeighbourDetailActivity extends AppCompatActivity {
 
         mFavoriteFab.setOnClickListener(v -> {
             if(!isFavourite) {
-                UserPref.addFavoriteId(mNeighbour.getId());
+                DI.getUserPref().addFavoriteId(mNeighbour.getId());
                 mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
             } else {
-                UserPref.removeFavoriteId(mNeighbour.getId());
+                DI.getUserPref().removeFavoriteId(mNeighbour.getId());
                 mFavoriteFab.setImageResource(R.drawable.ic_star_border_white_24dp);
             }
         });

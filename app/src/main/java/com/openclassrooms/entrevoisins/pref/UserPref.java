@@ -13,14 +13,14 @@ public class UserPref {
     private static SharedPreferences mPreferences;
     private static ArrayList<Long> mFavoritesId;
 
-    public UserPref(Context context) {
+    public UserPref init(Context context){
         if(mPreferences == null){
             mPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
             mFavoritesId = new ArrayList<>();
             readPref();
         }
+        return this;
     }
-
 
     private void readPref(){
         if(mPreferences.contains(PREF_KEY_FAVORITES_COUNT)){
@@ -35,23 +35,23 @@ public class UserPref {
         }
     }
 
-    public static Boolean favoritesContains(Long id) {
+    public Boolean favoritesContains(Long id) {
         return mFavoritesId.contains(id);
     }
 
 
-    public static void addFavoriteId(Long id){
+    public void addFavoriteId(Long id){
         mFavoritesId.add(id);
         writePrefs();
     }
 
-    public static void removeFavoriteId(Long id){
+    public void removeFavoriteId(Long id){
         mFavoritesId.remove(id);
         writePrefs();
         mPreferences.edit().remove(PREF_KEY_FAVORITES_VAL_PREFIX + mFavoritesId.size()).apply();
     }
 
-    private static void writePrefs(){
+    private void writePrefs(){
         mPreferences.edit().putInt(PREF_KEY_FAVORITES_COUNT, mFavoritesId.size()).apply();
         for(int i = 0; i < mFavoritesId.size(); i++){
             mPreferences.edit().putLong(PREF_KEY_FAVORITES_VAL_PREFIX +i, mFavoritesId.get(i)).apply();

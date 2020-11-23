@@ -41,8 +41,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
 
-        UserPref mUserPref = new UserPref(getApplicationContext());
-
         mNeighbourFragment = NeighbourFragment.newInstance();
         mFavoritesFragment = FavoritesFragment.newInstance();
 
