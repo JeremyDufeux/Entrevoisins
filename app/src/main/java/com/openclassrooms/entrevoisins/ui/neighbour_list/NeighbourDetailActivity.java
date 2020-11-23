@@ -2,13 +2,17 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,20 +60,23 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     @BindView(R.id.neighbour_detail_add_to_favorites)
     FloatingActionButton mFavoriteFab;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_neighbour_detail);
         ButterKnife.bind(this);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        actionBar.setTitle("");
 
         mApiService = DI.getNeighbourApiService();
 
         Intent intent = getIntent();
         mNeighbour = (Neighbour) intent.getParcelableExtra(BUNDLE_EXTRA_NEIGHBOUR);
-
 
         Glide.with(mPictureIv.getContext())
                 .load(mNeighbour.getAvatarUrl())
