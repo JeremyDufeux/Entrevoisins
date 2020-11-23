@@ -39,16 +39,6 @@ public class UserPref {
         return mFavoritesId.contains(id);
     }
 
-    public static void clearFavorites() {
-        if(mFavoritesId.size()>0) {
-            mPreferences.edit().putInt(PREF_KEY_FAVORITES_COUNT, 0).apply();
-            for (int i = 0; i < mFavoritesId.size(); i++) {
-                mPreferences.edit().remove(PREF_KEY_FAVORITES_VAL_PREFIX + i).apply();
-            }
-            mFavoritesId.clear();
-        }
-
-    }
 
     public static void addFavoriteId(Long id){
         mFavoritesId.add(id);

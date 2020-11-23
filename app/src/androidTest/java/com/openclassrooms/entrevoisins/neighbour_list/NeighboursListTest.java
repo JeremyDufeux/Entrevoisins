@@ -131,11 +131,6 @@ public class NeighboursListTest {
         textView2.check(matches(withText(neighbourName)));
     }
 
-    @Before
-    public void clearFavorites(){
-        UserPref.clearFavorites();
-    }
-
     /**
      * When we add a user to favorites, the item should be listed in the favorite list
      */
