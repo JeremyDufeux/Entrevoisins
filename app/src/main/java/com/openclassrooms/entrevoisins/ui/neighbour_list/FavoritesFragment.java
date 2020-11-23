@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.RemoveNeighbourFromFavoritesEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.pref.UserPref;
@@ -25,13 +26,12 @@ import java.util.List;
 
 public class FavoritesFragment extends Fragment {
     private NeighbourApiService mApiService;
-    private List<Neighbour> mNeighbours;
+    private List<Neighbour> mFavoritesNeighbours;
     private RecyclerView mRecyclerView;
     private MyFavoritesNeighbourRecyclerViewAdapter mAdapter;
 
     public static FavoritesFragment newInstance() {
-        FavoritesFragment fragment = new FavoritesFragment();
-        return fragment;
+        return new FavoritesFragment();
     }
 
     @Override
@@ -58,13 +58,13 @@ public class FavoritesFragment extends Fragment {
      */
     private void initList() {
         List<Neighbour> neighbours = mApiService.getNeighbours();
-        mNeighbours = new ArrayList<>();
+        mFavoritesNeighbours = new ArrayList<>();
         for(Neighbour neighbour : neighbours){
-            if(UserPref.favouritesContains(neighbour.getId())) {
-                mNeighbours.add(neighbour);
+            if(UserPref.favoritesContains(neighbour.getId())) {
+                mFavoritesNeighbours.add(neighbour);
             }
         }
-        mAdapter = new MyFavoritesNeighbourRecyclerViewAdapter(mNeighbours);
+        mAdapter = new MyFavoritesNeighbourRecyclerViewAdapter(mFavoritesNeighbours);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -87,12 +87,21 @@ public class FavoritesFragment extends Fragment {
     }
 
     /**
-     * Fired if the user clicks on a delete button
+     * Unfavorite if the user clicks on a star button
      * @param event Neighbour
      */
     @Subscribe
     public void onRemoveNeighbourFromFavoritesEvent(RemoveNeighbourFromFavoritesEvent event) {
-        UserPref.removeFavorite(event.neighbour.getId());
+        UserPref.removeFavoriteId(event.neighbour.getId());
+        initList();
+    }
+
+    /**
+     * Fired if the user clicks on a delete button
+     * @param event Neighbour
+     */
+    @Subscribe
+    public void onDeleteNeighbour(DeleteNeighbourEvent event) {
         initList();
     }
 
