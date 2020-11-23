@@ -13,3 +13,4 @@ Depuis **Android Studio** , cliquer sur **File**, **Open...**, et aller chercher
 # Exécution
 
 Cliquer sur **Run** et **Run 'App'** pour compiler et exécuter l'application
+![Run.png](Screenshot/Run.png)
