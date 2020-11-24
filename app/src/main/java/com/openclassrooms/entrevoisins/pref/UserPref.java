@@ -5,20 +5,17 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
-
 public class UserPref {
     public static final String PREF_KEY_FAVORITES_COUNT = "PREF_KEY_FAVORITES_COUNT";
-    public static final String PREF_KEY_FAVORITES_VAL_PREFIX = "VAL_";
+    public static final String PREF_KEY_FAVORITES_VAL_PREFIX = "PREF_KEY_FAVORITES_VAL_";
     private static final String FILENAME = "UserPref";
     private static SharedPreferences mPreferences;
     private static ArrayList<Long> mFavoritesId;
 
     public UserPref init(Context context){
-        if(mPreferences == null){
-            mPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-            mFavoritesId = new ArrayList<>();
-            readPref();
-        }
+        mPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+        mFavoritesId = new ArrayList<>();
+        readPref();
         return this;
     }
 
@@ -38,7 +35,6 @@ public class UserPref {
     public Boolean favoritesContains(Long id) {
         return mFavoritesId.contains(id);
     }
-
 
     public void addFavoriteId(Long id){
         mFavoritesId.add(id);

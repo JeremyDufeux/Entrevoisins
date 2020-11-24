@@ -13,12 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.neighbour_list.NeighbourDetailActivity" />
+        <activity android:name=".ui.NeighbourDetailActivity" />
         <activity
-            android:name=".ui.neighbour_list.AddNeighbourActivity"
+            android:name=".ui.AddNeighbourActivity"
             android:label="@string/activity_new_neighbour" />
         <activity
-            android:name=".ui.neighbour_list.ListNeighbourActivity"
+            android:name=".ui.ListNeighbourActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

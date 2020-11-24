@@ -1,4 +1,4 @@
-package com.openclassrooms.entrevoisins.ui.neighbour_list;
+package com.openclassrooms.entrevoisins.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

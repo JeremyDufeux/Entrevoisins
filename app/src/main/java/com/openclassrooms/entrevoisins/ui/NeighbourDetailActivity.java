@@ -1,4 +1,4 @@
-package com.openclassrooms.entrevoisins.ui.neighbour_list;
+package com.openclassrooms.entrevoisins.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
@@ -20,20 +19,12 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.pref.UserPref;
-import com.openclassrooms.entrevoisins.service.NeighbourApiService;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.ContentValues.TAG;
-
 public class NeighbourDetailActivity extends AppCompatActivity {
-    private NeighbourApiService mApiService;
     public static final String BUNDLE_EXTRA_NEIGHBOUR = "BUNDLE_EXTRA_NEIGHBOUR";
-    private Neighbour mNeighbour;
 
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.neighbour_detail_picture)
@@ -73,10 +64,8 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         actionBar.setTitle("");
 
-        mApiService = DI.getNeighbourApiService();
-
         Intent intent = getIntent();
-        mNeighbour = (Neighbour) intent.getParcelableExtra(BUNDLE_EXTRA_NEIGHBOUR);
+        Neighbour mNeighbour = (Neighbour) intent.getParcelableExtra(BUNDLE_EXTRA_NEIGHBOUR);
 
         Glide.with(mPictureIv.getContext())
                 .load(mNeighbour.getAvatarUrl())
@@ -91,7 +80,6 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         Boolean isFavourite = DI.getUserPref().favoritesContains(mNeighbour.getId());
         if(isFavourite) {
             mFavoriteFab.setImageResource(R.drawable.ic_star_white_24dp);
-            Log.d(TAG, "onCreate: " );
         }
 
         mFavoriteFab.setOnClickListener(v -> {

@@ -3,12 +3,12 @@ package com.openclassrooms.entrevoisins.events;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 /**
- * Event fired when a user deletes a Neighbour
+ * Event fired when a user open a Neighbour
  */
 public class OpenNeighbourDetailsEvent {
 
     /**
-     * Neighbour to delete
+     * Neighbour to Open
      */
     public Neighbour neighbour;
 

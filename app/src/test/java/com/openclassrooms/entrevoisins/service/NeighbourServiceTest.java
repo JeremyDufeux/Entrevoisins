@@ -52,7 +52,13 @@ public class NeighbourServiceTest {
     public void createNewNeighbourWithSuccess(){
         List<Neighbour> neighbours = service.getNeighbours();
         int neighboursCount = neighbours.size();
-        Neighbour neighbourToAdd = new Neighbour(1953, "Michelle Obama", "https://i.pravatar.cc/300?u=a042581f4e29026704d", "Washington", "+1 686 579 014",  "Hi I was the Barack wife");
+        Neighbour neighbourToAdd = new Neighbour(
+                1953,
+                "Michelle Obama",
+                "https://i.pravatar.cc/300?u=a042581f4e29026704d",
+                "Washington",
+                "+1 686 579 014",
+                "Hi I'm Barack's wife");
         service.createNeighbour(neighbourToAdd);
         assertEquals(neighboursCount+1, service.getNeighbours().size());
     }
